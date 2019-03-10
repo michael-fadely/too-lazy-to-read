@@ -13,16 +13,16 @@ namespace TooLazyToRead
 
 	public class Filter : ICloneable
 	{
-		[IniAlwaysInclude] public string Name;
-		[IniAlwaysInclude] public bool Enabled;
-		[IniAlwaysInclude] public string Description;
+		[IniAlwaysInclude] public string     Name;
+		[IniAlwaysInclude] public bool       Enabled;
+		[IniAlwaysInclude] public string     Description;
 		[IniAlwaysInclude] public FilterType Type;
-		[IniAlwaysInclude] public bool CaseSensitive;
-		[IniAlwaysInclude] public string MatchText;
-		[IniAlwaysInclude] public string ReplaceText;
-		[IniAlwaysInclude] public bool EscapeReplace;
+		[IniAlwaysInclude] public bool       CaseSensitive;
+		[IniAlwaysInclude] public string     MatchText;
+		[IniAlwaysInclude] public string     ReplaceText;
+		[IniAlwaysInclude] public bool       EscapeReplace;
 
-		[IniIgnore] public bool CachedRegex;
+		[IniIgnore] public  bool   CachedRegex;
 		[IniIgnore] private string cachedMatchText;
 
 		public string DoFilter(string input, bool forceRun = false)

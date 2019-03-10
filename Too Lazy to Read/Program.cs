@@ -10,10 +10,10 @@ namespace TooLazyToRead
 	{
 		public static bool TaskbarSupported;
 
-		public static ProgramSettings Settings;
-		private static string ConfigPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Too Lazy to Read");
-		private static string ConfigFile = "config.ini";
-		private static string Config; // This is set later to take command-line parameters into account.
+		public static  ProgramSettings Settings;
+		private static string          ConfigPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Too Lazy to Read");
+		private static string          ConfigFile = "config.ini";
+		private static string          Config; // This is set later to take command-line parameters into account.
 		//public static bool FirstRun = false;
 
 		#region Default Filters
@@ -39,7 +39,7 @@ namespace TooLazyToRead
 				Type          = FilterType.Regex,
 				CaseSensitive = false,
 				MatchText     = @"\[(show|hide|edit|[0-9]+)\]",
-				ReplaceText   = "",
+				ReplaceText   = string.Empty,
 				EscapeReplace = false
 			},
 			new Filter
@@ -156,7 +156,7 @@ namespace TooLazyToRead
 				{
 					result = MessageBox.Show("The following error occurred while setting up the configuration directory:\n\n"
 					                         + ex.Message,
-						"Error creating directory", MessageBoxButtons.AbortRetryIgnore, MessageBoxIcon.Error);
+					                         "Error creating directory", MessageBoxButtons.AbortRetryIgnore, MessageBoxIcon.Error);
 				}
 			} while (result == DialogResult.Retry);
 
@@ -179,7 +179,7 @@ namespace TooLazyToRead
 					if (File.Exists(Config))
 					{
 						Settings = IniSerializer.Deserialize<ProgramSettings>(Config);
-						result = DialogResult.OK;
+						result   = DialogResult.OK;
 					}
 					else
 					{
@@ -191,7 +191,7 @@ namespace TooLazyToRead
 				{
 					result = MessageBox.Show("Too Lazy to Read was unable to load your settings?!\n\n"
 					                         + ex.Message,
-						"Error loading configuration", MessageBoxButtons.AbortRetryIgnore, MessageBoxIcon.Error);
+					                         "Error loading configuration", MessageBoxButtons.AbortRetryIgnore, MessageBoxIcon.Error);
 				}
 			} while (result == DialogResult.Retry);
 
@@ -213,7 +213,7 @@ namespace TooLazyToRead
 				{
 					result = MessageBox.Show("Too Lazy to Read was unable to save your settings for some reason!\n\n"
 					                         + ex.Message,
-						"Error saving configuration", MessageBoxButtons.AbortRetryIgnore, MessageBoxIcon.Error);
+					                         "Error saving configuration", MessageBoxButtons.AbortRetryIgnore, MessageBoxIcon.Error);
 				}
 			} while (result == DialogResult.Retry);
 

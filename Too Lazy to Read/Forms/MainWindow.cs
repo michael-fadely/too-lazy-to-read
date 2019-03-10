@@ -22,23 +22,23 @@ namespace TooLazyToRead.Forms
 {
 	public partial class MainWindow : Form
 	{
-		private readonly List<int> lastFilters = new List<int>();
-		private ConcurrentQueue<string> clipQueue = new ConcurrentQueue<string>();
-		private SpeechSynthesizer speech;
+		private readonly List<int>               lastFilters = new List<int>();
+		private          ConcurrentQueue<string> clipQueue   = new ConcurrentQueue<string>();
+		private          SpeechSynthesizer       speech;
 
 		private int lastSelectionOffset;
 		private int lastSelectionLength;
 		private int textLength;
 
 		private readonly bool enableTaskbar = Program.TaskbarSupported;
-		private bool isReadingFromCursor;
+		private          bool isReadingFromCursor;
 
-		private TaskbarManager taskbar;
-		private ThumbnailToolBarButton taskbarPlayPause;
-		private ThumbnailToolBarButton taskbarStop;
-		private ThumbnailToolBarButton taskbarClipboard;
+		private TaskbarManager           taskbar;
+		private ThumbnailToolBarButton   taskbarPlayPause;
+		private ThumbnailToolBarButton   taskbarStop;
+		private ThumbnailToolBarButton   taskbarClipboard;
 		private ThumbnailToolBarButton[] taskbarButtons;
-		private string lastClipboard;
+		private string                   lastClipboard;
 
 		private enum HotkeyID : uint
 		{
@@ -55,9 +55,10 @@ namespace TooLazyToRead.Forms
 			WinApi.RegisterHotKey(Handle, (int)HotkeyID.ReadClipboard, WinApi.MOD_CONTROL | WinApi.MOD_ALT, (uint)Keys.C);
 
 			speech = new SpeechSynthesizer();
-			speech.SpeakStarted += OnSpeakStart;
+
+			speech.SpeakStarted   += OnSpeakStart;
 			speech.SpeakCompleted += OnSpeakComplete;
-			speech.SpeakProgress += OnSpeakProgress;
+			speech.SpeakProgress  += OnSpeakProgress;
 
 			foreach (InstalledVoice voice in speech.GetInstalledVoices())
 			{
@@ -71,8 +72,8 @@ namespace TooLazyToRead.Forms
 
 			InitTaskbar(enableTaskbar);
 
-			richText.AllowDrop = true;
-			richText.DragDrop += onDragDrop;
+			richText.AllowDrop =  true;
+			richText.DragDrop  += onDragDrop;
 			richText.DragEnter += onDragEnter;
 		}
 
@@ -93,12 +94,12 @@ namespace TooLazyToRead.Forms
 				taskbar = TaskbarManager.Instance;
 
 				taskbarPlayPause = new ThumbnailToolBarButton(Resources.Play, "Play");
-				taskbarStop = new ThumbnailToolBarButton(Resources.Stop, "Stop");
+				taskbarStop      = new ThumbnailToolBarButton(Resources.Stop, "Stop");
 				taskbarClipboard = new ThumbnailToolBarButton(Resources.PlayClipboard, "Play Clipboard");
 
 				taskbarClipboard.Click += buttonPlayClipboard_Click;
 				taskbarPlayPause.Click += onTaskbarPlayPause_Click;
-				taskbarStop.Click += buttonStop_Click;
+				taskbarStop.Click      += buttonStop_Click;
 
 				taskbarButtons = new ThumbnailToolBarButton[]
 				{
@@ -114,7 +115,7 @@ namespace TooLazyToRead.Forms
 				taskbar = null;
 
 				taskbarPlayPause = null;
-				taskbarStop = null;
+				taskbarStop      = null;
 				taskbarClipboard = null;
 
 				taskbarButtons = null;
@@ -123,10 +124,12 @@ namespace TooLazyToRead.Forms
 
 		#region Configuration
 
-		// Calls Program.LoadSettings() and applies the loaded settings.
-		// If Program.LoadSettings() returns DialogResult.Ignore, it uses the default Form settings
-		// and calls StoreSettings()
-		// Returns true on success.
+		/// <summary>
+		/// Calls <see cref="Program.LoadSettings"/> and applies the loaded settings.
+		/// If <see cref="Program.LoadSettings"/> returns <see cref="DialogResult.Ignore"/>, it uses the default Form settings
+		/// and calls <see cref="StoreSettings"/>.
+		/// </summary>
+		/// <returns><c>true</c> on success.</returns>
 		private bool LoadSettings()
 		{
 			switch (Program.LoadSettings())
@@ -145,30 +148,34 @@ namespace TooLazyToRead.Forms
 			}
 		}
 
-		// Calls StoreSettings() and Program.SaveSettings() to save the configuration to disk.
-		// Returns true on success.
-		// ReSharper disable once UnusedMethodReturnValue.Local
-		private bool SaveSettings()
+		/// <summary>
+		/// Calls <see cref="StoreSettings"/> and <see cref="Program.SaveSettings"/> to save the configuration to disk.
+		/// </summary>
+		private void SaveSettings()
 		{
 			StoreSettings();
-			return Program.SaveSettings() != DialogResult.Abort;
+			Program.SaveSettings();
 		}
 
-		// Stores configuration from the Form in the Settings class.
+		/// <summary>
+		/// Stores configuration from the Form in the Settings class.
+		/// </summary>
 		private void StoreSettings()
 		{
 			Program.Settings.ProgramConfig.MonitorClipboard = toolCheckMonitorClipboard.Checked;
-			Program.Settings.ProgramConfig.QueueClipboard = toolQueueClipboard.Checked;
-			Program.Settings.ProgramConfig.IgnoreURLs = toolCheckIgnoreURLs.Checked;
-			Program.Settings.ProgramConfig.ReadFromCursor = true;
-			Program.Settings.ProgramConfig.ReadFromCursor = toolCheckReadFromCursor.Checked;
+			Program.Settings.ProgramConfig.QueueClipboard   = toolQueueClipboard.Checked;
+			Program.Settings.ProgramConfig.IgnoreURLs       = toolCheckIgnoreURLs.Checked;
+			Program.Settings.ProgramConfig.ReadFromCursor   = true;
+			Program.Settings.ProgramConfig.ReadFromCursor   = toolCheckReadFromCursor.Checked;
 			Program.Settings.ProgramConfig.RestoreSelection = toolCheckRestoreSelection.Checked;
 
-			Program.Settings.VoiceConfig.Name = comboVoices.Text;
+			Program.Settings.VoiceConfig.Name  = comboVoices.Text;
 			Program.Settings.VoiceConfig.Speed = trackVoiceSpeed.Value;
 		}
 
-		// Applies the settings stored in the Settings class to the Form
+		/// <summary>
+		/// Applies the settings stored in the Settings class to the Form
+		/// </summary>
 		private void ApplySettings()
 		{
 			int voiceIndex = comboVoices.FindStringExact(Program.Settings.VoiceConfig.Name);
@@ -176,19 +183,19 @@ namespace TooLazyToRead.Forms
 			if (voiceIndex < 0)
 			{
 				MessageBox.Show("The voice saved in the configuration (\"" + Program.Settings.VoiceConfig.Name + "\")\n"
-								+ "couldn't be detected. Using default.",
-					"Voice doesn't exist", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				                + "couldn't be detected. Using default.",
+				                "Voice doesn't exist", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
 				voiceIndex = 0;
 			}
 
 			comboVoices.SelectedIndex = voiceIndex;
-			trackVoiceSpeed.Value = Program.Settings.VoiceConfig.Speed;
+			trackVoiceSpeed.Value     = Program.Settings.VoiceConfig.Speed;
 
 			toolCheckMonitorClipboard.Checked = Program.Settings.ProgramConfig.MonitorClipboard;
-			toolQueueClipboard.Checked = Program.Settings.ProgramConfig.QueueClipboard;
-			toolCheckIgnoreURLs.Checked = Program.Settings.ProgramConfig.IgnoreURLs;
-			toolCheckReadFromCursor.Checked = Program.Settings.ProgramConfig.ReadFromCursor;
+			toolQueueClipboard.Checked        = Program.Settings.ProgramConfig.QueueClipboard;
+			toolCheckIgnoreURLs.Checked       = Program.Settings.ProgramConfig.IgnoreURLs;
+			toolCheckReadFromCursor.Checked   = Program.Settings.ProgramConfig.ReadFromCursor;
 			toolCheckRestoreSelection.Checked = Program.Settings.ProgramConfig.RestoreSelection;
 		}
 
@@ -200,19 +207,19 @@ namespace TooLazyToRead.Forms
 		{
 			if (enableTaskbar)
 			{
-				taskbarPlayPause.Icon = Resources.Pause;
+				taskbarPlayPause.Icon    = Resources.Pause;
 				taskbarPlayPause.Tooltip = "Pause";
 
 				taskbar.SetProgressState(TaskbarProgressBarState.Normal);
 			}
 
-			buttonPlayPause.Image = Resources.Pause_PNG;
+			buttonPlayPause.Image            = Resources.Pause_PNG;
 			playPauseToolStripMenuItem.Image = Resources.Pause_PNG;
 
-			comboVoices.Enabled = false;
-			buttonStop.Enabled = true;
-			buttonPlayFrom.Enabled = false;
-			stopToolStripMenuItem.Enabled = true;
+			comboVoices.Enabled                   = false;
+			buttonStop.Enabled                    = true;
+			buttonPlayFrom.Enabled                = false;
+			stopToolStripMenuItem.Enabled         = true;
 			playFromHereToolStripMenuItem.Enabled = false;
 		}
 
@@ -233,7 +240,7 @@ namespace TooLazyToRead.Forms
 
 			if (enableTaskbar)
 			{
-				taskbarPlayPause.Icon = Resources.Play;
+				taskbarPlayPause.Icon    = Resources.Play;
 				taskbarPlayPause.Tooltip = "Play";
 
 				taskbar.SetProgressState(TaskbarProgressBarState.NoProgress);
@@ -252,7 +259,7 @@ namespace TooLazyToRead.Forms
 				richText.DeselectAll();
 			}
 
-			buttonPlayPause.Image = Resources.Play_PNG;
+			buttonPlayPause.Image            = Resources.Play_PNG;
 			playPauseToolStripMenuItem.Image = Resources.Play_PNG;
 
 			comboVoices.Enabled                   = true;
@@ -267,8 +274,7 @@ namespace TooLazyToRead.Forms
 		private void OnSpeakProgress(object sender, SpeakProgressEventArgs args)
 		{
 			// With Cortana, this event can be fired for two different words
-			// simultaneously while the first is still being read. This is
-			// either a bug with Cortana or the speech API.
+			// simultaneously while the first is still being read.
 			richText.Select(args.CharacterPosition + lastSelectionOffset, args.CharacterCount);
 			if (enableTaskbar)
 			{
@@ -281,19 +287,20 @@ namespace TooLazyToRead.Forms
 			if (enableReadSelection && ((lastSelectionLength = richText.SelectionLength) > 0))
 			{
 				lastSelectionOffset = richText.SelectionStart;
-				textLength = richText.SelectedText.Length;
+				textLength          = richText.SelectedText.Length;
 
 				return richText.SelectedText;
 			}
+
 			if (readFromCursor && richText.SelectionStart > 0 && richText.SelectionStart != richText.Text.Length)
 			{
 				lastSelectionOffset = richText.SelectionStart;
-				textLength = richText.Text.Length - richText.SelectionStart;
+				textLength          = richText.Text.Length - richText.SelectionStart;
 			}
 			else
 			{
 				lastSelectionOffset = 0;
-				textLength = richText.Text.Length;
+				textLength          = richText.Text.Length;
 			}
 
 			return lastSelectionOffset == 0 ? richText.Text : richText.Text.Substring(lastSelectionOffset);
@@ -311,13 +318,13 @@ namespace TooLazyToRead.Forms
 			{
 				if (enableTaskbar)
 				{
-					taskbarPlayPause.Icon = Resources.Play;
+					taskbarPlayPause.Icon    = Resources.Play;
 					taskbarPlayPause.Tooltip = "Play";
 
 					taskbar.SetProgressState(TaskbarProgressBarState.Paused);
 				}
 
-				buttonPlayPause.Image = Resources.Play_PNG;
+				buttonPlayPause.Image            = Resources.Play_PNG;
 				playPauseToolStripMenuItem.Image = Resources.Play_PNG;
 				speech.Pause();
 			}
@@ -325,13 +332,13 @@ namespace TooLazyToRead.Forms
 			{
 				if (enableTaskbar)
 				{
-					taskbarPlayPause.Icon = Resources.Pause;
+					taskbarPlayPause.Icon    = Resources.Pause;
 					taskbarPlayPause.Tooltip = "Pause";
 
 					taskbar.SetProgressState(TaskbarProgressBarState.Normal);
 				}
 
-				buttonPlayPause.Image = Resources.Pause_PNG;
+				buttonPlayPause.Image            = Resources.Pause_PNG;
 				playPauseToolStripMenuItem.Image = Resources.Pause_PNG;
 				speech.Resume();
 			}
@@ -352,20 +359,17 @@ namespace TooLazyToRead.Forms
 
 		#region Clipboard
 
-		// Register the form for clipboard listening.
 		private void RegisterClipboard()
 		{
 			WinApi.AddClipboardFormatListener(Handle);
 		}
 
-		// Unregisters the form from clipboard listening.
 		private void UnregisterClipboard()
 		{
 			WinApi.RemoveClipboardFormatListener(Handle);
 			lastClipboard = string.Empty;
 		}
 
-		// Does the thing
 		protected override void WndProc(ref Message m)
 		{
 			base.WndProc(ref m);
@@ -393,6 +397,7 @@ namespace TooLazyToRead.Forms
 							ReadText(str);
 						}
 					}
+
 					break;
 
 				case WinApi.WM.HOTKEY:
@@ -400,13 +405,14 @@ namespace TooLazyToRead.Forms
 					{
 						ReadText(GetClipboard());
 					}
+
 					break;
 			}
 		}
 
 		private string GetClipboard()
 		{
-			IDataObject iData = Clipboard.GetDataObject();
+			IDataObject iData  = Clipboard.GetDataObject();
 			string result = string.Empty;
 
 			if (iData == null || !iData.GetDataPresent(DataFormats.UnicodeText))
@@ -435,7 +441,7 @@ namespace TooLazyToRead.Forms
 				if (++i == 10)
 				{
 					DialogResult input = MessageBox.Show(this, "Failed to open clipboard after 10 tries. It was likely still in use by another program."
-						+ "\nWould you like to try again?", "Failed to open clipboard", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
+					                                     + "\nWould you like to try again?", "Failed to open clipboard", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
 
 					if (input != DialogResult.Retry)
 					{
@@ -492,10 +498,10 @@ namespace TooLazyToRead.Forms
 				catch (Exception ex)
 				{
 					MessageBox.Show("An error occurred while trying to run the filter:\n\n"
-									+ "Name: " + f.Name
-									+ "\nType: " + f.Type
-									+ "\n\n" + ex.Message,
-						"Filter Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					                + "Name: " + f.Name
+					                + "\nType: " + f.Type
+					                + "\n\n" + ex.Message,
+					                "Filter Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				}
 			}
 
@@ -517,23 +523,24 @@ namespace TooLazyToRead.Forms
 				catch (Exception ex)
 				{
 					MessageBox.Show("An error occurred while trying to run the filter:\n\n"
-									+ "Name: " + f.Name
-									+ "\nType: " + f.Type
-									+ "\n\n" + ex.Message,
-						"Filter Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					                + "Name: " + f.Name
+					                + "\nType: " + f.Type
+					                + "\n\n" + ex.Message,
+					                "Filter Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 				}
 			}
 
 			return result;
 		}
+
 		private void ApplyFilters(bool useIndices)
 		{
-			int selectStart = richText.SelectionStart;
+			int selectStart  = richText.SelectionStart;
 			int selectLength = richText.SelectionLength;
 
 			if (selectLength != richText.Text.Length && selectLength > 0)
 			{
-				string text = richText.Text;
+				string text   = richText.Text;
 				string substr = text.Substring(selectStart, selectLength);
 
 				substr = useIndices ? RunFilters(lastFilters, substr) : RunFilters(substr);
@@ -553,10 +560,11 @@ namespace TooLazyToRead.Forms
 
 		private void RunSelectedFilters(bool selectFirst)
 		{
-			DialogResult result = DialogResult.OK;
+			var result = DialogResult.OK;
+
 			if (selectFirst)
 			{
-				using (FilterSelect window = new FilterSelect(Program.Settings.Filters, lastFilters))
+				using (var window = new FilterSelect(Program.Settings.Filters, lastFilters))
 				{
 					result = window.ShowDialog();
 
@@ -580,55 +588,28 @@ namespace TooLazyToRead.Forms
 
 		#region Text box context menu
 
-		private void undoToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			richText.Undo();
-		}
+		private void undoToolStripMenuItem_Click(object sender, EventArgs e) => richText.Undo();
 
-		private void cutToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			richText.Cut();
-		}
+		private void cutToolStripMenuItem_Click(object sender, EventArgs e) => richText.Cut();
 
-		private void copyToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			richText.Copy();
-		}
+		private void copyToolStripMenuItem_Click(object sender, EventArgs e) => richText.Copy();
 
-		private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			richText.Paste();
-		}
+		private void pasteToolStripMenuItem_Click(object sender, EventArgs e) => richText.Paste();
 
 		private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			richText.Text = richText.Text.Remove(richText.SelectionStart, richText.SelectionLength);
 		}
 
-		private void selectAllToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			richText.SelectAll();
-		}
+		private void selectAllToolStripMenuItem_Click(object sender, EventArgs e) => richText.SelectAll();
 
-		private void allToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			ApplyFilters(false);
-		}
+		private void allToolStripMenuItem_Click(object sender, EventArgs e) => ApplyFilters(useIndices: false);
 
-		private void selectedToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			RunSelectedFilters(true);
-		}
+		private void selectedToolStripMenuItem_Click(object sender, EventArgs e) => RunSelectedFilters(selectFirst: true);
 
-		private void lastToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			RunSelectedFilters(false);
-		}
+		private void lastToolStripMenuItem_Click(object sender, EventArgs e) => RunSelectedFilters(selectFirst: false);
 
-		private void buttonPlayFrom_Click(object sender, EventArgs e)
-		{
-			StartSpeaking(true, false);
-		}
+		private void buttonPlayFrom_Click(object sender, EventArgs e) => StartSpeaking(readFromCursor: true, enableReadSelection: false);
 
 		#endregion
 
@@ -639,7 +620,7 @@ namespace TooLazyToRead.Forms
 			switch (speech.State)
 			{
 				case SynthesizerState.Ready:
-					StartSpeaking(false, false);
+					StartSpeaking(readFromCursor: false, enableReadSelection: false);
 					break;
 
 				case SynthesizerState.Speaking:
@@ -669,7 +650,8 @@ namespace TooLazyToRead.Forms
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show($"An error occurred loading the voice \"{voice}\":\n\n{ex.Message}", "Error loading " + voice, MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBox.Show($"An error occurred loading the voice \"{voice}\":\n\n{ex.Message}",
+				                "Error loading " + voice, MessageBoxButtons.OK, MessageBoxIcon.Error);
 
 				comboVoices.Items.RemoveAt(comboVoices.SelectedIndex);
 				comboVoices.SelectedIndex = 0;
@@ -756,19 +738,22 @@ namespace TooLazyToRead.Forms
 					taskbar.SetProgressState(TaskbarProgressBarState.Error);
 				}
 
-				MessageBox.Show("An error occurred while trying to save this recording.\n" + ex.Message, "Error saving recording", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBox.Show("An error occurred while trying to save this recording.\n" + ex.Message,
+				                "Error saving recording", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
 				if (enableTaskbar)
 				{
 					taskbar.SetProgressState(TaskbarProgressBarState.NoProgress);
 				}
+
 				speech.SetOutputToDefaultAudioDevice();
 				return;
 			}
 
 			speech.SetOutputToDefaultAudioDevice();
 
-			result = MessageBox.Show("Recording complete! Would you like to open it now?", "Recording saved successfully", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+			result = MessageBox.Show("Recording complete! Would you like to open it now?",
+			                         "Recording saved successfully", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
 
 			OnSpeakComplete(speech, null);
 
@@ -783,7 +768,8 @@ namespace TooLazyToRead.Forms
 			DialogResult result = DialogResult.Yes;
 			if (speech.State == SynthesizerState.Speaking)
 			{
-				result = MessageBox.Show("Are you sure you want to exit? I'm not done reading!", "Are you sure?", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+				result = MessageBox.Show("Are you sure you want to exit? I'm not done reading!",
+				                         "Are you sure?", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
 			}
 
 			if (result == DialogResult.Yes)
@@ -814,9 +800,8 @@ namespace TooLazyToRead.Forms
 
 		private void manageFiltersToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			using (FilterManager window = new FilterManager(Program.Settings.Filters))
+			using (var window = new FilterManager(Program.Settings.Filters))
 			{
-				// TODO: Use something other than ShowDialog somehow? I'd like the main window to be usable while the filter manager is opened.
 				if (window.ShowDialog() != DialogResult.OK)
 				{
 					return;
@@ -829,11 +814,11 @@ namespace TooLazyToRead.Forms
 
 		#endregion
 
-		private void ReadTextFile(IEnumerable<string> stuff)
+		private void ReadTextFile(IEnumerable<string> filePaths)
 		{
 			richText.Clear();
 
-			foreach (string s in stuff)
+			foreach (string s in filePaths)
 			{
 				string extension = Path.GetExtension(s);
 				if (extension != null && extension.ToUpper() == ".TXT")
@@ -858,14 +843,14 @@ namespace TooLazyToRead.Forms
 
 		private void toolImportFilter_Click(object sender, EventArgs e)
 		{
-			using (OpenFileDialog open = new OpenFileDialog { Filter = "INI File|*.ini" })
+			using (var open = new OpenFileDialog { Filter = "INI File|*.ini" })
 			{
 				if (open.ShowDialog() != DialogResult.OK)
 				{
 					return;
 				}
 
-				List<Filter> import = IniSerializer.Deserialize<List<Filter>>(open.FileName);
+				var import = IniSerializer.Deserialize<List<Filter>>(open.FileName);
 
 				if (import.Count == 0)
 				{
@@ -873,7 +858,7 @@ namespace TooLazyToRead.Forms
 					return;
 				}
 
-				using (FilterSelect window = new FilterSelect(import))
+				using (var window = new FilterSelect(import))
 				{
 					if (window.ShowDialog() != DialogResult.OK)
 					{
@@ -890,7 +875,7 @@ namespace TooLazyToRead.Forms
 
 		private void toolExportFilter_Click(object sender, EventArgs e)
 		{
-			using (FilterSelect window = new FilterSelect(Program.Settings.Filters))
+			using (var window = new FilterSelect(Program.Settings.Filters))
 			{
 				DialogResult result = window.ShowDialog();
 
@@ -899,7 +884,7 @@ namespace TooLazyToRead.Forms
 					return;
 				}
 
-				using (SaveFileDialog save = new SaveFileDialog { Filter = "INI File|*.ini" })
+				using (var save = new SaveFileDialog { Filter = "INI File|*.ini" })
 				{
 					if (save.ShowDialog() != DialogResult.OK || window.SelectedFilters.Count <= 0)
 					{

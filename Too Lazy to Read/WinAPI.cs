@@ -23,10 +23,10 @@ namespace TooLazyToRead
 
 		#region fields
 
-		public const int MOD_ALT = 0x1;
+		public const int MOD_ALT     = 0x1;
 		public const int MOD_CONTROL = 0x2;
-		public const int MOD_SHIFT = 0x4;
-		public const int MOD_WIN = 0x8;
+		public const int MOD_SHIFT   = 0x4;
+		public const int MOD_WIN     = 0x8;
 
 		#endregion
 
@@ -987,7 +987,7 @@ namespace TooLazyToRead
 			/// </summary>
 			WTSSESSION_CHANGE = 0x02B1,
 			TABLET_FIRST = 0x02c0,
-			TABLET_LAST = 0x02df,
+			TABLET_LAST  = 0x02df,
 
 			/// <summary>
 			/// An application sends a WM_CUT message to an edit control or combo box to delete (cut) the current selection, if any, in the edit control and copy the deleted text to the clipboard in CF_TEXT format.
@@ -1134,11 +1134,17 @@ namespace TooLazyToRead
 			/// Sent to request extended title bar information. A window receives this message through its WindowProc function.
 			/// </summary>
 			GETTITLEBARINFOEX = 0x033F,
+
 			HANDHELDFIRST = 0x0358,
+
 			HANDHELDLAST = 0x035F,
+
 			AFXFIRST = 0x0360,
+
 			AFXLAST = 0x037F,
+
 			PENWINFIRST = 0x0380,
+
 			PENWINLAST = 0x038F,
 
 			/// <summary>

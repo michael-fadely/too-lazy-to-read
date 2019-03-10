@@ -6,13 +6,13 @@ namespace TooLazyToRead.Forms
 {
 	public partial class FilterSelect : Form
 	{
-		public List<int> SelectedFilters { get; private set; }
-		public List<Filter> FilterList { get; private set; }
-		public bool FiltersModified { get; private set; }
+		public List<int>    SelectedFilters { get; private set; }
+		public List<Filter> FilterList      { get; private set; }
+		public bool         FiltersModified { get; private set; }
 
 		public FilterSelect(List<Filter> filters, List<int> lastSelected)
 		{
-			FilterList = filters;
+			FilterList      = filters;
 			SelectedFilters = lastSelected;
 
 			InitializeComponent();
@@ -20,7 +20,7 @@ namespace TooLazyToRead.Forms
 
 		public FilterSelect(List<Filter> filters)
 		{
-			FilterList = filters;
+			FilterList      = filters;
 			SelectedFilters = new List<int>();
 
 			InitializeComponent();
@@ -34,6 +34,7 @@ namespace TooLazyToRead.Forms
 		private void buttonOK_Click(object sender, EventArgs e)
 		{
 			SelectedFilters.Clear();
+
 			for (int i = 0; i < checkedFilterList.Items.Count; i++)
 			{
 				if (checkedFilterList.GetItemChecked(i))
@@ -51,7 +52,7 @@ namespace TooLazyToRead.Forms
 
 		private void buttonManage_Click(object sender, EventArgs e)
 		{
-			using (FilterManager window = new FilterManager(FilterList))
+			using (var window = new FilterManager(FilterList))
 			{
 				if (window.ShowDialog() != DialogResult.OK)
 				{
@@ -61,7 +62,7 @@ namespace TooLazyToRead.Forms
 				FilterList = window.NewFilters;
 				FilterManager.PopulateFilterList(checkedFilterList, FilterList, true);
 
-				FiltersModified = true;
+				FiltersModified  = true;
 				checkAll.Checked = false;
 				buttonOK.Enabled = false;
 			}

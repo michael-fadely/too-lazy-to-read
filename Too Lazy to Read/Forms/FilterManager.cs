@@ -77,13 +77,13 @@ namespace TooLazyToRead.Forms
 			if (textName.Text.Length < 1)
 			{
 				MessageBox.Show("You must specify a name for your filter!",
-					"Error saving filter.", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+				                "Error saving filter.", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
 				textName.Select();
 				return;
 			}
 
-			NewFilters[index].Name = textName.Text;
-			NewFilters[index].Enabled = checkedFilterList.GetItemChecked(index);
+			NewFilters[index].Name        = textName.Text;
+			NewFilters[index].Enabled     = checkedFilterList.GetItemChecked(index);
 			NewFilters[index].Description = textDescription.Text;
 
 			if (radioPlain.Checked)
@@ -104,8 +104,8 @@ namespace TooLazyToRead.Forms
 
 			NewFilters[index].CaseSensitive = checkCaseSensitive.Checked;
 
-			NewFilters[index].MatchText = textMatch.Text;
-			NewFilters[index].ReplaceText = textReplace.Text;
+			NewFilters[index].MatchText     = textMatch.Text;
+			NewFilters[index].ReplaceText   = textReplace.Text;
 			NewFilters[index].EscapeReplace = checkEscapeReplace.Checked;
 		}
 
@@ -124,11 +124,12 @@ namespace TooLazyToRead.Forms
 		private void buttonAddFilter_Click(object sender, EventArgs e)
 		{
 			checkedFilterList.Items.Add("New Filter");
-			Filter f = new Filter
+
+			var f = new Filter
 			{
-				Name = "New Filter",
+				Name    = "New Filter",
 				Enabled = true,
-				Type = FilterType.Plain
+				Type    = FilterType.Plain
 			};
 
 			NewFilters.Add(f);
@@ -163,8 +164,10 @@ namespace TooLazyToRead.Forms
 			try
 			{
 				Filter a = NewFilters[to];
-				NewFilters[to] = NewFilters[from];
+
+				NewFilters[to]   = NewFilters[from];
 				NewFilters[from] = a;
+
 				checkedFilterList.SelectedIndex = to;
 			}
 			catch (Exception ex)
@@ -202,7 +205,7 @@ namespace TooLazyToRead.Forms
 
 		private void listFilters_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			buttonFilterUp.Enabled = checkedFilterList.SelectedIndex > 0;
+			buttonFilterUp.Enabled   = checkedFilterList.SelectedIndex > 0;
 			buttonFilterDown.Enabled = checkedFilterList.SelectedIndex < checkedFilterList.Items.Count - 1;
 
 			if (checkedFilterList.SelectedIndex >= 0)
@@ -233,31 +236,31 @@ namespace TooLazyToRead.Forms
 
 				checkCaseSensitive.Checked = NewFilters[index].CaseSensitive;
 
-				textMatch.Text = NewFilters[index].MatchText;
-				textReplace.Text = NewFilters[index].ReplaceText;
+				textMatch.Text             = NewFilters[index].MatchText;
+				textReplace.Text           = NewFilters[index].ReplaceText;
 				checkEscapeReplace.Checked = NewFilters[index].EscapeReplace;
 
 				groupProperties.Enabled = true;
-				buttonApply.Enabled = true;
+				buttonApply.Enabled     = true;
 
 				buttonRemoveFilter.Enabled = true;
 				checkEscapeReplace.Enabled = radioRegex.Checked;
 			}
 			else
 			{
-				textName.Text = "";
-				textDescription.Text = "";
-				radioPlain.Checked = false;
+				textName.Text         = string.Empty;
+				textDescription.Text  = string.Empty;
+				radioPlain.Checked    = false;
 				radioWildcard.Checked = false;
-				radioRegex.Checked = false;
+				radioRegex.Checked    = false;
 
 				checkCaseSensitive.Checked = false;
 
-				textMatch.Text = "";
-				textReplace.Text = "";
+				textMatch.Text   = string.Empty;
+				textReplace.Text = string.Empty;
 
 				groupProperties.Enabled = false;
-				buttonApply.Enabled = false;
+				buttonApply.Enabled     = false;
 
 				buttonRemoveFilter.Enabled = false;
 			}
@@ -268,8 +271,8 @@ namespace TooLazyToRead.Forms
 			DialogResult result = MessageBox.Show("Are you sure you want to restore the default filters?"
 			                                      + "\nThis can only be undone by clicking Cancel or Close on the Filter Manager."
 			                                      + "\n\nSelecting No will cancel.",
-				"Are you sure?",
-				MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+			                                      "Are you sure?",
+			                                      MessageBoxButtons.YesNo, MessageBoxIcon.Information);
 
 			if (result != DialogResult.Yes)
 			{
@@ -283,7 +286,7 @@ namespace TooLazyToRead.Forms
 			Enabled = true;
 
 			MessageBox.Show("Default filters have been successfully restored. These changes will not take effect until you click OK or Apply on the filter manager.",
-				"Restored default filters", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+			                "Restored default filters", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
 		}
 
 		private void checkedFilterList_ItemCheck(object sender, ItemCheckEventArgs e)
