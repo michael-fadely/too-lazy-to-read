@@ -21,6 +21,18 @@ namespace TooLazyToRead
 		[return: MarshalAs(UnmanagedType.Bool)]
 		public static extern bool RemoveClipboardFormatListener(IntPtr hwnd);
 
+		[DllImport("user32.dll", SetLastError = true)]
+		public static extern IntPtr GetClipboardOwner();
+
+		[DllImport("user32.dll", SetLastError = true)]
+		public static extern int GetWindowThreadProcessId(IntPtr hwnd, out int proc_id);
+
+		//[DllImport("user32.dll", SetLastError = true)]
+		//public static extern GetModuleFileNameA
+		//	(
+		//		IntPtr hmodule, [Out][MarshalAsAttribute(UnmanagedType.LPArray, ArraySubType=UnmanagedType.LPStr)] out filename
+		//	);
+
 		#region fields
 
 		public const int MOD_ALT     = 0x1;

@@ -359,6 +359,19 @@ namespace TooLazyToRead.Forms
 
 		#region Clipboard
 
+		private static Process GetClipboardProcess()
+		{
+			IntPtr src_wnd = WinApi.GetClipboardOwner();
+
+			int src_pid;
+			
+			WinApi.GetWindowThreadProcessId(src_wnd, out src_pid);
+
+			Process src_proc = Process.GetProcessById(src_pid);
+
+			return src_proc;
+		}
+
 		private void RegisterClipboard()
 		{
 			WinApi.AddClipboardFormatListener(Handle);
@@ -379,6 +392,29 @@ namespace TooLazyToRead.Forms
 				case WinApi.WM.CLIPBOARDUPDATE:
 					if (toolCheckMonitorClipboard.Checked)
 					{
+						bool skip_clipboard = false;
+
+						try
+						{
+							Process src_proc = GetClipboardProcess();
+
+							string src_proc_name = src_proc.ProcessName;
+
+							if (!Program.Settings.ProgramInClipboardFilter(src_proc_name))
+							{
+								// Can't break here due to try-catch block.
+								skip_clipboard = true;
+							}
+						}
+						// If there's an error resolving the process, don't worry about filtering:
+						catch (InvalidOperationException) {}
+						catch (ArgumentException) {}
+
+						if (skip_clipboard)
+                        {
+							break;
+                        }
+
 						string str = GetClipboard();
 
 						if (string.IsNullOrEmpty(str) || str == lastClipboard)
