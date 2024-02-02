@@ -19,7 +19,7 @@ namespace TooLazyToRead.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -57,6 +57,169 @@ namespace TooLazyToRead.Properties {
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The voice saved in the configuration (&quot;{0}&quot;)
+        ///couldn&apos;t be detected. Using default..
+        /// </summary>
+        internal static string MainWindow_ApplySettings_ConfiguredVoiceNotFound_Message {
+            get {
+                return ResourceManager.GetString("MainWindow_ApplySettings_ConfiguredVoiceNotFound_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Configured Voice Not Found.
+        /// </summary>
+        internal static string MainWindow_ApplySettings_ConfiguredVoiceNotFound_Title {
+            get {
+                return ResourceManager.GetString("MainWindow_ApplySettings_ConfiguredVoiceNotFound_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred loading the voice &quot;{0}&quot;:
+        ///
+        ///{1}.
+        /// </summary>
+        internal static string MainWindow_comboVoices_SelectedIndexChanged_ErrorLoadingVoice_Message {
+            get {
+                return ResourceManager.GetString("MainWindow_comboVoices_SelectedIndexChanged_ErrorLoadingVoice_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error loading voice.
+        /// </summary>
+        internal static string MainWindow_comboVoices_SelectedIndexChanged_ErrorLoadingVoice_Title {
+            get {
+                return ResourceManager.GetString("MainWindow_comboVoices_SelectedIndexChanged_ErrorLoadingVoice_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to exit? I&apos;m not done reading!.
+        /// </summary>
+        internal static string MainWindow_exitToolStripMenuItem_Click_ConfirmExit_Message {
+            get {
+                return ResourceManager.GetString("MainWindow_exitToolStripMenuItem_Click_ConfirmExit_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure?.
+        /// </summary>
+        internal static string MainWindow_exitToolStripMenuItem_Click_ConfirmExit_Title {
+            get {
+                return ResourceManager.GetString("MainWindow_exitToolStripMenuItem_Click_ConfirmExit_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to open clipboard. It was likely still in use by another program.
+        ///Would you like to try again?.
+        /// </summary>
+        internal static string MainWindow_GetClipboard_OpenClipboardFailed_Message {
+            get {
+                return ResourceManager.GetString("MainWindow_GetClipboard_OpenClipboardFailed_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to open clipboard.
+        /// </summary>
+        internal static string MainWindow_GetClipboard_OpenClipboardFailed_Title {
+            get {
+                return ResourceManager.GetString("MainWindow_GetClipboard_OpenClipboardFailed_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred while trying to save this recording.
+        ///{0}.
+        /// </summary>
+        internal static string MainWindow_recordToWAVToolStripMenuItem_Click_ErrorSavingRecording_Message {
+            get {
+                return ResourceManager.GetString("MainWindow_recordToWAVToolStripMenuItem_Click_ErrorSavingRecording_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error saving recording.
+        /// </summary>
+        internal static string MainWindow_recordToWAVToolStripMenuItem_Click_ErrorSavingRecording_Title {
+            get {
+                return ResourceManager.GetString("MainWindow_recordToWAVToolStripMenuItem_Click_ErrorSavingRecording_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Recording complete! Would you like to open it now?.
+        /// </summary>
+        internal static string MainWindow_recordToWAVToolStripMenuItem_Click_RecordingComplete_Message {
+            get {
+                return ResourceManager.GetString("MainWindow_recordToWAVToolStripMenuItem_Click_RecordingComplete_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Recording saved successfully.
+        /// </summary>
+        internal static string MainWindow_recordToWAVToolStripMenuItem_Click_RecordingComplete_Title {
+            get {
+                return ResourceManager.GetString("MainWindow_recordToWAVToolStripMenuItem_Click_RecordingComplete_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred while trying to run the filter:
+        ///
+        ///Name: {0}
+        ///Type: {1}
+        ///
+        ///{2}.
+        /// </summary>
+        internal static string MainWindow_RunFilters_FilterError_Message {
+            get {
+                return ResourceManager.GetString("MainWindow_RunFilters_FilterError_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Filter Error.
+        /// </summary>
+        internal static string MainWindow_RunFilters_FilterError_Title {
+            get {
+                return ResourceManager.GetString("MainWindow_RunFilters_FilterError_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This file doesn&apos;t contain any filters..
+        /// </summary>
+        internal static string MainWindow_toolImportFilter_Click_NoFiltersInFile_Message {
+            get {
+                return ResourceManager.GetString("MainWindow_toolImportFilter_Click_NoFiltersInFile_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Import error.
+        /// </summary>
+        internal static string MainWindow_toolImportFilter_Click_NoFiltersInFile_Title {
+            get {
+                return ResourceManager.GetString("MainWindow_toolImportFilter_Click_NoFiltersInFile_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Voice speed ({0}).
+        /// </summary>
+        internal static string MainWindow_trackVoiceSpeed_Scroll_VoiceSpeedToolTip {
+            get {
+                return ResourceManager.GetString("MainWindow_trackVoiceSpeed_Scroll_VoiceSpeedToolTip", resourceCulture);
             }
         }
         

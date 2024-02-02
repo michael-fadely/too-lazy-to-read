@@ -145,4 +145,65 @@
   <data name="Stop_PNG" type="System.Resources.ResXFileRef, System.Windows.Forms">
 	<value>..\Resources\stop.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="MainWindow_ApplySettings_ConfiguredVoiceNotFound_Message" xml:space="preserve">
+    <value>The voice saved in the configuration ("{0}")
+couldn't be detected. Using default.</value>
+  </data>
+  <data name="MainWindow_ApplySettings_ConfiguredVoiceNotFound_Title" xml:space="preserve">
+    <value>Configured Voice Not Found</value>
+  </data>
+  <data name="MainWindow_GetClipboard_OpenClipboardFailed_Message" xml:space="preserve">
+    <value>Failed to open clipboard. It was likely still in use by another program.
+Would you like to try again?</value>
+  </data>
+  <data name="MainWindow_GetClipboard_OpenClipboardFailed_Title" xml:space="preserve">
+    <value>Failed to open clipboard</value>
+  </data>
+  <data name="MainWindow_RunFilters_FilterError_Message" xml:space="preserve">
+    <value>An error occurred while trying to run the filter:
+
+Name: {0}
+Type: {1}
+
+{2}</value>
+  </data>
+  <data name="MainWindow_RunFilters_FilterError_Title" xml:space="preserve">
+    <value>Filter Error</value>
+  </data>
+  <data name="MainWindow_comboVoices_SelectedIndexChanged_ErrorLoadingVoice_Message" xml:space="preserve">
+    <value>An error occurred loading the voice "{0}":
+
+{1}</value>
+  </data>
+  <data name="MainWindow_comboVoices_SelectedIndexChanged_ErrorLoadingVoice_Title" xml:space="preserve">
+    <value>Error loading voice</value>
+  </data>
+  <data name="MainWindow_recordToWAVToolStripMenuItem_Click_ErrorSavingRecording_Message" xml:space="preserve">
+    <value>An error occurred while trying to save this recording.
+{0}</value>
+  </data>
+  <data name="MainWindow_recordToWAVToolStripMenuItem_Click_ErrorSavingRecording_Title" xml:space="preserve">
+    <value>Error saving recording</value>
+  </data>
+  <data name="MainWindow_recordToWAVToolStripMenuItem_Click_RecordingComplete_Message" xml:space="preserve">
+    <value>Recording complete! Would you like to open it now?</value>
+  </data>
+  <data name="MainWindow_recordToWAVToolStripMenuItem_Click_RecordingComplete_Title" xml:space="preserve">
+    <value>Recording saved successfully</value>
+  </data>
+  <data name="MainWindow_exitToolStripMenuItem_Click_ConfirmExit_Message" xml:space="preserve">
+    <value>Are you sure you want to exit? I'm not done reading!</value>
+  </data>
+  <data name="MainWindow_exitToolStripMenuItem_Click_ConfirmExit_Title" xml:space="preserve">
+    <value>Are you sure?</value>
+  </data>
+  <data name="MainWindow_toolImportFilter_Click_NoFiltersInFile_Message" xml:space="preserve">
+    <value>This file doesn't contain any filters.</value>
+  </data>
+  <data name="MainWindow_toolImportFilter_Click_NoFiltersInFile_Title" xml:space="preserve">
+    <value>Import error</value>
+  </data>
+  <data name="MainWindow_trackVoiceSpeed_Scroll_VoiceSpeedToolTip" xml:space="preserve">
+    <value>Voice speed ({0})</value>
+  </data>
 </root>
