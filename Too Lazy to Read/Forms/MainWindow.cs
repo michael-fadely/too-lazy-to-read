@@ -872,8 +872,10 @@ namespace TooLazyToRead.Forms
 
 		private void toolImportFilter_Click(object sender, EventArgs e)
 		{
-			using (var open = new OpenFileDialog { Filter = @"INI File|*.ini" })
+			using (var open = new OpenFileDialog())
 			{
+				open.Filter = @"INI File|*.ini";
+
 				if (open.ShowDialog() != DialogResult.OK)
 				{
 					return;
@@ -916,8 +918,10 @@ namespace TooLazyToRead.Forms
 					return;
 				}
 
-				using (var save = new SaveFileDialog { Filter = @"INI File|*.ini" })
+				using (var save = new SaveFileDialog())
 				{
+					save.Filter = @"INI File|*.ini";
+
 					if (save.ShowDialog() != DialogResult.OK || window.SelectedFilters.Count <= 0)
 					{
 						return;
